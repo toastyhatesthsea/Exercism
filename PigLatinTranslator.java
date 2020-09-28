@@ -31,7 +31,18 @@ public class PigLatinTranslator
         {
             String someWord = aScanOfWord.next();
             someWord = changeWord(someWord);
-            answer = answer.concat(someWord);
+
+            //Adding space between words
+            if (!answer.isEmpty())
+            {
+                answer = answer.concat(" " + someWord);
+
+            } else
+            {
+                answer = answer.concat(someWord);
+
+            }
+
         }
         return answer;
     }
@@ -48,6 +59,7 @@ public class PigLatinTranslator
         if (whatTypeOfLetter.equals("vowel"))
         {
             aWord = aWord.concat("ay");
+            return aWord;
         }
 
         String specialVowelSound = "";
@@ -58,6 +70,7 @@ public class PigLatinTranslator
             if (specialVowelSound.equals("xr") || specialVowelSound.equals("yt"))
             {
                 aWord = aWord.concat("ay");
+                return aWord;
             }
         }
 
@@ -80,6 +93,10 @@ public class PigLatinTranslator
                     {
                         aWord = aWord.substring(i + 2) + aWord.substring(0, i + 2) + "ay";
                     } else if (firstLetter.equals("y"))
+                    {
+                        aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
+                    }
+                    else
                     {
                         aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
                     }
