@@ -74,6 +74,7 @@ public class PigLatinTranslator
             }
         }
 
+        //Constenent cluster
         if (whatTypeOfLetter.equals("const"))
         {
             boolean clusterDone = false;
@@ -84,22 +85,40 @@ public class PigLatinTranslator
 
                 if (whatTypeOfLetter.equals("vowel") || firstLetter.equals("y") || firstLetter.equals("q"))
                 {
-                    clusterDone = true;
 
-                    String secondLetter = aWord.substring(i + 1, i + 2);
-                    //TODO Fix translation when encountering constenant and q or y at end of word
-
-                    if (firstLetter.equals("q") && secondLetter.equals("u"))
-                    {
-                        aWord = aWord.substring(i + 2) + aWord.substring(0, i + 2) + "ay";
-                    } else if (firstLetter.equals("y"))
+                    if (i == aWord.length() - 1) //index reaches end of word
                     {
                         aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
+                        clusterDone = true;
                     }
                     else
                     {
-                        aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
+                        String secondLetter = aWord.substring(i + 1, i + 2);
+                        //TODO Fix translation when encountering constenant and q or y at end of word
+
+                        if (firstLetter.equals("q"))
+                        {
+                            if (secondLetter.equals("u"))
+                            {
+                                aWord = aWord.substring(i + 2) + aWord.substring(0, i + 2) + "ay";
+                                clusterDone = true;
+                            }
+                        } else if (firstLetter.equals("y"))
+                        {
+                            if (i != 0) // beginning of word
+                            {
+                                aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
+                                clusterDone = true;
+                            }
+                        }
+                        else
+                        {
+                            aWord = aWord.substring(i) + aWord.substring(0, i) + "ay";
+                            clusterDone = true;
+                        }
                     }
+
+
                 }
             }
         }
