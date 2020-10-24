@@ -21,6 +21,8 @@ public class GrepTool
     private boolean matchFile;
     private boolean invertMatch;
     private boolean matchEntireLines;
+    private boolean moreThanOneFile;
+
     private int lineCount;
 
 
@@ -31,6 +33,10 @@ public class GrepTool
         this.lineCount = 0;
 
         processFlags(aFlags); //Process Flags
+        if (fileName.size() > 1)
+        {
+            moreThanOneFile = true;
+        }
 
         for (String aSingleFileName : fileName)
         {
@@ -44,16 +50,17 @@ public class GrepTool
                     boolean foundLine = false;
                     String aLine = scanFile.nextLine();
 
-                    if (caseInsensitiveFlag)
-                    {
-                        foundLine = lineMatcher(aLine, findThisString, new CaseInsensitiveGrep());
-                    }
-                    else if
+                    foundLine = lineMatcher(aLine, findThisString);
 
+                    //TODO Must add processing options for processing entire lines and just processing if there is a match in the file and printing filename
+                    //TODO Must do processing for flags: -x and -l
 
                     if (foundLine)
                     {
-                        processAnswer(aLine);
+                        answer = processAnswer(aLine, aSingleFileName);
+                    } else if (this.invertMatch)
+                    {
+                        answer = processAnswer(aLine, aSingleFileName);
                     }
                     this.lineCount++;
                 }
@@ -64,26 +71,32 @@ public class GrepTool
             }
         }
 
-        for (String aFlag : aFlags)
-        {
-            if (aFlag.equalsIgnoreCase("-i"))
-            {
-                grepPredicate ignoreCase = new CaseInsensitiveGrep();
-            }
-        }
-
-
         return answer;
     }
 
-    public String processAnswer(String anAnswer)
+    /**
+     * Admends and writes out the matched line according to different flags
+     *
+     * @param lineToProcess String
+     * @return String
+     */
+    public String processAnswer(String lineToProcess, String fileName)
     {
-        //AdmendLine lineAdmender;
-        if (caseInsensitiveFlag)
+        String lineNumber = "", fileString = "";
+
+
+        if (lineNumberFlag)
         {
-            anAnswer = this.lineCount + ":"+ anAnswer;
+            lineNumber = this.lineCount + ":";
         }
-        return anAnswer;
+        if (moreThanOneFile)
+        {
+            fileString = fileName + ":";
+        }
+
+        lineToProcess = fileString + lineNumber + lineToProcess;
+
+        return lineToProcess;
     }
 
     public void processFlags(Collection<String> flags)
@@ -109,19 +122,46 @@ public class GrepTool
         }
     }
 
-    public boolean lineMatcher(String aLine, String stringToFind, grepPredicate aPred)
+    public boolean lineMatcher(String aLine, String stringToFind)
     {
         Scanner aScanLine = new Scanner(aLine);
         boolean answer = false;
-        answer = aLine.contains(stringToFind);
+        //answer = aLine.contains(stringToFind);
 
         while (aScanLine.hasNext() && !answer)
         {
             String aWord = aScanLine.next();
-            answer = aPred.isEqual(aWord, stringToFind);
+            //answer = aPred.isEqual(aWord, stringToFind);
+            if (this.caseInsensitiveFlag)
+            {
+                answer = aWord.equalsIgnoreCase(stringToFind);
+            } else
+            {
+                answer = aWord.equals(stringToFind);
+            }
         }
 
         return answer;
+    }
+
+    public boolean invertedLineMatcher(String aLine, String stringToFind)
+    {
+        Scanner aScanLine = new Scanner(aLine);
+        boolean answer = false;
+
+        while (aScanLine.hasNext() && !answer)
+        {
+            String aWord = aScanLine.next();
+            //answer = aPred.isEqual(aWord, stringToFind);
+            if (this.caseInsensitiveFlag)
+            {
+                answer = aWord.equalsIgnoreCase(stringToFind);
+            } else
+            {
+                answer = aWord.equals(stringToFind);
+            }
+        }
+
     }
 
     public interface grepPredicate
