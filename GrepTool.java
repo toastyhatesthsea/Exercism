@@ -55,7 +55,17 @@ public class GrepTool
                     //TODO Must add processing options for processing entire lines and just processing if there is a match in the file and printing filename
                     //TODO Must do processing for flags: -x and -l
 
-                    if (foundLine)
+                    if (foundLine && lineNumberFlag)
+                    {
+                        if (answer.isEmpty())
+                        {
+                            answer = answer.concat(aSingleFileName);
+                        } else
+                        {
+                            answer = "\n" + answer.concat(aSingleFileName);
+                        }
+                        break;
+                    } else if (foundLine)
                     {
                         answer = processAnswer(aLine, aSingleFileName);
                     } else if (this.invertMatch)
@@ -124,24 +134,29 @@ public class GrepTool
 
     public boolean lineMatcher(String aLine, String stringToFind)
     {
-        Scanner aScanLine = new Scanner(aLine);
-        boolean answer = false;
-        //answer = aLine.contains(stringToFind);
-
-        while (aScanLine.hasNext() && !answer)
+        if (matchEntireLines)
         {
-            String aWord = aScanLine.next();
-            //answer = aPred.isEqual(aWord, stringToFind);
-            if (this.caseInsensitiveFlag)
-            {
-                answer = aWord.equalsIgnoreCase(stringToFind);
-            } else
-            {
-                answer = aWord.equals(stringToFind);
-            }
-        }
+            return aLine.equals(stringToFind);
+        } else
+        {
+            Scanner aScanLine = new Scanner(aLine);
+            boolean answer = false;
+            //answer = aLine.contains(stringToFind);
 
-        return answer;
+            while (aScanLine.hasNext() && !answer)
+            {
+                String aWord = aScanLine.next();
+                //answer = aPred.isEqual(aWord, stringToFind);
+                if (this.caseInsensitiveFlag)
+                {
+                    answer = aWord.equalsIgnoreCase(stringToFind);
+                } else
+                {
+                    answer = aWord.equals(stringToFind);
+                }
+            }
+            return answer;
+        }
     }
 
     public boolean invertedLineMatcher(String aLine, String stringToFind)
@@ -161,7 +176,7 @@ public class GrepTool
                 answer = aWord.equals(stringToFind);
             }
         }
-
+        return answer;
     }
 
     public interface grepPredicate
@@ -184,6 +199,6 @@ class Testers
 
         String someLine = "How may you wake";
 
-        aTool.lineMatcher(someLine, "ay", new CaseInsensitiveGrep());
+        //aTool.lineMatcher(someLine, "ay", new CaseInsensitiveGrep());
     }
 }
