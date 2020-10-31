@@ -168,7 +168,7 @@ public class GrepTool
                 String aWord = aScanLine.next();
                 aWord = aWord.replaceAll("[^a-zA-Z]", "");
                 //answer = aPred.isEqual(aWord, stringToFind);
-                answer = aWord.equals(stringToFind);
+                answer = aWord.contains(stringToFind);
 
             }
             return answer;
