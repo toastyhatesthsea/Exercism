@@ -23,14 +23,14 @@ public class GrepTool
     private boolean matchEntireLines;
     private boolean moreThanOneFile;
 
-    private int lineCount;
+    private int lineCount = 1;
 
 
     public String grep(String findThisString, Collection<String> aFlags, Collection<String> fileName)
     {
         String answer = "";
         File aFile;
-        this.lineCount = 0;
+        //this.lineCount = 0;
 
         processFlags(aFlags); //Process Flags
         if (fileName.size() > 1)
@@ -55,7 +55,7 @@ public class GrepTool
                     //TODO Must add processing options for processing entire lines and just processing if there is a match in the file and printing filename
                     //TODO Must do processing for flags: -x and -l
 
-                    if (foundLine && lineNumberFlag)
+                    if (foundLine && matchFile)
                     {
                         if (answer.isEmpty())
                         {
@@ -116,7 +116,7 @@ public class GrepTool
             if (aFlag.equals("-n"))
             {
                 this.lineNumberFlag = true;
-            } else if (aFlag.equals("-l"))
+            } else if (aFlag.equals("-l")) //Just looks for writing out filename instead of each line, takes precedence
             {
                 this.matchFile = true;
             } else if (aFlag.equals("-v"))
