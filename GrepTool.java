@@ -85,7 +85,7 @@ public class GrepTool
     }
 
     /**
-     * Admends and writes out the matched line according to different flags
+     * Amends and writes out the matched line according to different flags
      *
      * @param lineToProcess String
      * @return String
@@ -141,11 +141,13 @@ public class GrepTool
         {
             Scanner aScanLine = new Scanner(aLine);
             boolean answer = false;
+            aScanLine.useDelimiter("[,!;: ]");
             //answer = aLine.contains(stringToFind);
 
             while (aScanLine.hasNext() && !answer)
             {
                 String aWord = aScanLine.next();
+                aWord = aWord.replaceAll("[^a-zA-Z]", "");
                 //answer = aPred.isEqual(aWord, stringToFind);
                 if (this.caseInsensitiveFlag)
                 {
@@ -196,6 +198,10 @@ class Testers
     {
         GrepTool aTool = new GrepTool();
 
+        String pel = "Peleus'";
+        String anotherPel = "Pelelklkl";
+
+        boolean answer = pel.contains(anotherPel);
 
         String someLine = "How may you wake";
 
