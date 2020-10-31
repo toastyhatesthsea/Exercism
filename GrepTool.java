@@ -44,10 +44,13 @@ public class GrepTool
             try
             {
                 Scanner scanFile = new Scanner(aFile);
+                boolean foundLine = false;
+                boolean finished = false;
+                this.lineCount = 1;
 
-                while (scanFile.hasNext())
+
+                while (scanFile.hasNext() && !finished)
                 {
-                    boolean foundLine = false;
                     String aLine = scanFile.nextLine();
 
                     foundLine = lineMatcher(aLine, findThisString);
@@ -55,23 +58,33 @@ public class GrepTool
                     //TODO Must add processing options for processing entire lines and just processing if there is a match in the file and printing filename
                     //TODO Must do processing for flags: -x and -l
 
-                    if (foundLine && matchFile)
+                    String temp = "";
+                    if (foundLine && matchFile && !this.invertMatch)
                     {
-                        if (answer.isEmpty())
-                        {
-                            answer = answer.concat(aSingleFileName);
-                        } else
-                        {
-                            answer = "\n" + answer.concat(aSingleFileName);
-                        }
-                        break;
-                    } else if (foundLine)
+                        temp = aSingleFileName;
+                        finished = true;
+
+                    } else if (!foundLine && matchFile && this.invertMatch)
                     {
-                        answer = processAnswer(aLine, aSingleFileName);
-                    } else if (this.invertMatch)
+                        temp = aSingleFileName;
+                        finished = true;
+                    } else if (!foundLine && this.invertMatch)
                     {
-                        answer = processAnswer(aLine, aSingleFileName);
+                        temp = processAnswer(aLine, aSingleFileName);
+                    } else if (foundLine && !this.invertMatch)
+                    {
+                        temp = processAnswer(aLine, aSingleFileName);
                     }
+
+                    //Create new lines
+                    if (answer.isEmpty() && !temp.isEmpty())
+                    {
+                        answer = temp;
+                    } else if (!temp.isEmpty())
+                    {
+                        answer = answer.concat("\n" + temp);
+                    }
+
                     this.lineCount++;
                 }
 
@@ -134,6 +147,12 @@ public class GrepTool
 
     public boolean lineMatcher(String aLine, String stringToFind)
     {
+        if (caseInsensitiveFlag)
+        {
+            stringToFind = stringToFind.toLowerCase();
+            aLine = aLine.toLowerCase();
+        }
+
         if (matchEntireLines)
         {
             return aLine.equals(stringToFind);
@@ -149,13 +168,8 @@ public class GrepTool
                 String aWord = aScanLine.next();
                 aWord = aWord.replaceAll("[^a-zA-Z]", "");
                 //answer = aPred.isEqual(aWord, stringToFind);
-                if (this.caseInsensitiveFlag)
-                {
-                    answer = aWord.equalsIgnoreCase(stringToFind);
-                } else
-                {
-                    answer = aWord.equals(stringToFind);
-                }
+                answer = aWord.equals(stringToFind);
+
             }
             return answer;
         }
