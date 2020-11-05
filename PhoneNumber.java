@@ -18,7 +18,7 @@ public class PhoneNumber
     {
         aPhoneNumber = aPhoneNumber.strip();
 
-        aPhoneNumber = aPhoneNumber.replaceAll("[()-]", "");
+        aPhoneNumber = aPhoneNumber.replaceAll("[()-]", " ");
         this.anPhoneNumber = aPhoneNumber;
         getRidOfSpecialCharacters();
 
@@ -50,7 +50,7 @@ public class PhoneNumber
         {
             throw new IllegalArgumentException("letters not permitted");
         }
-        if (!aDigit.matches("[1-9 ()-]"))
+        if (!aDigit.matches("[1-9]"))
         {
             throw new IllegalArgumentException("punctuations not permitted");
         }
