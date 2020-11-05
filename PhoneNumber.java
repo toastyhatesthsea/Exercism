@@ -17,6 +17,11 @@ public class PhoneNumber
     public PhoneNumber(String aPhoneNumber)
     {
         aPhoneNumber = aPhoneNumber.strip();
+
+        aPhoneNumber = aPhoneNumber.replaceAll("[()-]", "");
+        this.anPhoneNumber = aPhoneNumber;
+        getRidOfSpecialCharacters();
+
         this.anPhoneNumber = aPhoneNumber;
     }
 
@@ -30,8 +35,12 @@ public class PhoneNumber
     {
         for (int i = 0; i < anPhoneNumber.length(); i++)
         {
-            Character aDigit = anPhoneNumber.charAt(i);
+            String aDigit = anPhoneNumber.substring(i, i + 1);
+            errorCheck(aDigit);
+
         }
+
+        return "";
     }
 
 
@@ -41,6 +50,11 @@ public class PhoneNumber
         {
             throw new IllegalArgumentException("letters not permitted");
         }
+        if (!aDigit.matches("[1-9 ()-]"))
+        {
+            throw new IllegalArgumentException("punctuations not permitted");
+        }
+        //if(aDigit.matches())
     }
 
 
