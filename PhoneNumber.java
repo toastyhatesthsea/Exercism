@@ -8,7 +8,9 @@ which is an important part of programming in Java.
 Please remove this comment when submitting your solution.
 
 */
+//TODO Need to process number when it is without spaces
 
+import java.util.Scanner;
 
 public class PhoneNumber
 {
@@ -18,11 +20,18 @@ public class PhoneNumber
     {
         aPhoneNumber = aPhoneNumber.strip();
 
-        aPhoneNumber = aPhoneNumber.replaceAll("[()-]", " ");
+        aPhoneNumber = aPhoneNumber.replaceAll("[()-.]", " ");
         this.anPhoneNumber = aPhoneNumber;
-        getRidOfSpecialCharacters();
+        checkForErrors();
 
-        this.anPhoneNumber = aPhoneNumber;
+        if (this.anPhoneNumber.length() > 11)
+        {
+            throw new IllegalArgumentException("more than 11 digits");
+        } else if (this.anPhoneNumber.length() < 10)
+        {
+            throw new IllegalArgumentException("incorrect number of digits");
+        }
+
     }
 
 
@@ -31,12 +40,38 @@ public class PhoneNumber
         return "";
     }
 
-    public String getRidOfSpecialCharacters() throws IllegalArgumentException
+
+    public String checkForErrors() throws IllegalArgumentException
     {
+        Scanner numberScan = new Scanner(this.anPhoneNumber);
+        int count = 0;
+
+        while (numberScan.hasNext())
+        {
+            String someNumberLine = numberScan.nextLine();
+
+            for (int i = 0; i < someNumberLine.length(); i++)
+            {
+                String aDigit = someNumberLine.substring(i, i + 1);
+                checkDigit(aDigit);
+            }
+
+            if (count == 1)
+            {
+                AreaCodeCheck predicate = new AreaCodeCheck();
+                predicate.process(someNumberLine);
+            } else if (count == 2)
+            {
+                ExchangeCodeCheck predicate = new ExchangeCodeCheck();
+                predicate.process(someNumberLine);
+            }
+            count++;
+        }
+
         for (int i = 0; i < anPhoneNumber.length(); i++)
         {
             String aDigit = anPhoneNumber.substring(i, i + 1);
-            errorCheck(aDigit);
+            checkDigit(aDigit);
 
         }
 
@@ -44,7 +79,7 @@ public class PhoneNumber
     }
 
 
-    public void errorCheck(String aDigit)
+    public void checkDigit(String aDigit)
     {
         if (aDigit.matches("[a-zA-Z]"))
         {
@@ -55,6 +90,11 @@ public class PhoneNumber
             throw new IllegalArgumentException("punctuations not permitted");
         }
         //if(aDigit.matches())
+    }
+
+    public interface PhoneNumberPredicate
+    {
+        void process(String aNumber);
     }
 
 
