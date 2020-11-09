@@ -18,11 +18,10 @@ public class PhoneNumber
 
     public PhoneNumber(String aPhoneNumber)
     {
-        aPhoneNumber = aPhoneNumber.strip();
 
-        aPhoneNumber = aPhoneNumber.replaceAll("[()-.]", " ");
+        aPhoneNumber = aPhoneNumber.replaceAll("[()-.+ ]", "");
+        //aPhoneNumber = aPhoneNumber.strip();
         this.anPhoneNumber = aPhoneNumber;
-        checkForErrors();
 
         if (this.anPhoneNumber.length() > 11)
         {
@@ -32,20 +31,36 @@ public class PhoneNumber
             throw new IllegalArgumentException("incorrect number of digits");
         }
 
+        if (this.anPhoneNumber.length() == 11) //Get rid of potential leading 1
+        {
+            String firstDigit = this.anPhoneNumber.substring(0, 1);
+            if (!firstDigit.equals("1"))
+            {
+                throw new IllegalArgumentException("11 digits must start with 1");
+            }
+            this.anPhoneNumber = aPhoneNumber.substring(1); //Removes leading digit if it starts with 1
+        }
+
+        checkForErrors();
+
+
     }
 
 
     public String getNumber()
     {
-        return "";
+        return this.anPhoneNumber;
     }
 
 
-    public String checkForErrors() throws IllegalArgumentException
+    public void checkForErrors() throws IllegalArgumentException
     {
+        String areaCodeStr = "";
+        String exchangeCodeString = "";
         Scanner numberScan = new Scanner(this.anPhoneNumber);
         int count = 0;
 
+        /*
         while (numberScan.hasNext())
         {
             String someNumberLine = numberScan.nextLine();
@@ -66,16 +81,39 @@ public class PhoneNumber
                 predicate.process(someNumberLine);
             }
             count++;
-        }
+        }*/
 
         for (int i = 0; i < anPhoneNumber.length(); i++)
         {
             String aDigit = anPhoneNumber.substring(i, i + 1);
             checkDigit(aDigit);
 
-        }
+            if (count == 0)
+            {
+                areaCodeStr = areaCodeStr.concat(anPhoneNumber.substring(i, i+1));
+                if (areaCodeStr.length() == 3)
+                {
+                    AreaCodeCheck predicate = new AreaCodeCheck();
+                    predicate.process(areaCodeStr);
+                    count = 1;
+                }
+            } else if (count == 1)
+            {
+                exchangeCodeString = exchangeCodeString.concat(anPhoneNumber.substring(i, i+1));
+                if (exchangeCodeString.length() == 3)
+                {
+                    ExchangeCodeCheck predicate = new ExchangeCodeCheck();
+                    predicate.process(exchangeCodeString);
+                    count = 2;
+                }
+            }
 
-        return "";
+            /*if (i == 2)
+            {
+                count++;
+            }*/
+
+        }
     }
 
 
@@ -85,7 +123,7 @@ public class PhoneNumber
         {
             throw new IllegalArgumentException("letters not permitted");
         }
-        if (!aDigit.matches("[1-9]"))
+        if (!aDigit.matches("[0-9]"))
         {
             throw new IllegalArgumentException("punctuations not permitted");
         }
@@ -98,4 +136,14 @@ public class PhoneNumber
     }
 
 
+}
+
+class MeowTesters
+{
+    public static void main(String[] asdasdasd)
+    {
+        String aStr = "A B C D E";
+        aStr = aStr.replaceAll("[()-. ]", "");
+
+    }
 }
