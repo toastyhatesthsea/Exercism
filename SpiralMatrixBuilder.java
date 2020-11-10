@@ -9,19 +9,37 @@ Please remove this comment when submitting your solution.
 
 */
 
+//TODO Must write directional logic code and finish MatrixPredicate
+
 
 public class SpiralMatrixBuilder
 {
-    public int [][] theMatrix;
+    public Integer [][] theMatrix;
 
 
-    public int[][] buildMatrixOfSize(int size)
+    public Integer[][] buildMatrixOfSize(int size)
     {
-        theMatrix = new int[0][0];
+        theMatrix = new Integer[size][size];
+
+        int currentRow = 0, currentColumn = 0;
+
+
+        for(int i=1; i<=size; i++)
+        {
+            if (this.theMatrix[currentColumn - 1][currentRow] != null && this.theMatrix[currentColumn - 1][currentRow] == 0)
+            {
+
+            }
+        }
 
         int [][][][] rawr;
 
         return theMatrix;
+    }
+
+    public interface MatrixPredicate
+    {
+        void fillMatrixOneDirection(String direction);
     }
 }
 
@@ -37,7 +55,7 @@ class MeowersTesters
                 {13, 12, 11, 10, 9}
         };
 
-        int answer = someMultiArray[1][0];
+        int answer = someMultiArray[-1][0];
 
     }
 }
