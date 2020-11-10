@@ -19,6 +19,25 @@ public class SpiralMatrixBuilder
     {
         theMatrix = new int[0][0];
 
+        int [][][][] rawr;
+
         return theMatrix;
+    }
+}
+
+class MeowersTesters
+{
+    public static void main(String[] asdasdasddas)
+    {
+        int[][] someMultiArray = {
+                {1, 2, 3, 4, 5},
+                {16, 17, 18, 19, 6},
+                {15, 24, 25, 20, 7},
+                {14, 23, 22, 21, 8},
+                {13, 12, 11, 10, 9}
+        };
+
+        int answer = someMultiArray[1][0];
+
     }
 }
