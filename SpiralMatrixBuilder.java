@@ -16,6 +16,11 @@ public class SpiralMatrixBuilder
 {
     public Integer [][] theMatrix;
 
+    public void processMatrix()
+    {
+        
+    }
+
 
     public Integer[][] buildMatrixOfSize(int size)
     {
