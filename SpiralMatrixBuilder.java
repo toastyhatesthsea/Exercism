@@ -34,39 +34,71 @@ public class SpiralMatrixBuilder
     {
         theMatrix = new Integer[size][size];
 
-        int currentRow = 0, currentColumn = 0;
+        int currentRow = 0, currentColumn = 0, highestNumber = size * size;
 
         String right = "Right", left = "Left", up = "Up", down = "Down";
 
         String direction = right;
 
-        for(int i=1; i<=size; i++)
+
+        for (int i = 1; i <= highestNumber; i++)
         {
-            switch (direction)
+            while (currentColumn < size && currentRow < size && currentColumn >= 0 && currentRow >= 0 && theMatrix[currentColumn][currentRow] == null)
             {
-                case "Right":
+                theMatrix[currentColumn][currentRow] = i;
+                switch (direction)
                 {
-                    while (currentColumn < size && theMatrix[currentColumn][currentRow] == null)
+                    case "Right":
                     {
-                        theMatrix[currentColumn][currentRow] = i;
                         currentColumn++;
                         i++;
+
+                        break;
+                    }
+                    case "Down":
+                    {
+                        currentRow++;
+                        i++;
+
+                        break;
+                    }
+                    case "Left":
+                    {
+                        currentColumn--;
+                        i++;
+                        break;
+                    }
+                    case "Up":
+                    {
+                        currentRow--;
+                        i++;
+                        break;
                     }
                 }
             }
 
+            i--;
+
             if (direction.equals("Right"))
             {
+                currentRow++;
+                currentColumn--;
                 direction = down;
             } else if (direction.equals("Down"))
             {
+                currentRow--;
+                currentColumn--;
                 direction = left;
             } else if (direction.equals("Left"))
             {
+                currentRow--;
+                currentColumn++;
                 direction = up;
             } else
             {
                 direction = right;
+                currentRow++;
+                currentColumn++;
             }
 
 
@@ -75,6 +107,7 @@ public class SpiralMatrixBuilder
 
 
 
+        /*
         for (int i = 1; i <= size; i++)
         {
             //Up Direction check
@@ -86,7 +119,7 @@ public class SpiralMatrixBuilder
                 }
 
 
-        }
+        }*/
 
         int[][][][] rawr;
 
