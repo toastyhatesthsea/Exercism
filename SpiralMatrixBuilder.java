@@ -12,6 +12,8 @@ Please remove this comment when submitting your solution.
 //TODO Must write directional logic code and finish MatrixPredicate
 
 
+//TODO Have to swap Row and Column values, writing values to wrong index
+
 public class SpiralMatrixBuilder
 {
     public Integer[][] theMatrix;
@@ -136,7 +138,7 @@ class MeowersTesters
 {
     public static void main(String[] asdasdasddas)
     {
-        /*
+
         int[][] someMultiArray = {
                 {1, 2, 3, 4, 5},
                 {16, 17, 18, 19, 6},
@@ -145,8 +147,8 @@ class MeowersTesters
                 {13, 12, 11, 10, 9}
         };
 
-        int answer = someMultiArray[-1][0];
-        */
+        int answer = someMultiArray[0][0];
+
         SpiralMatrixBuilder someSpiral = new SpiralMatrixBuilder();
 
         someSpiral.buildMatrixOfSize(5);
