@@ -18,20 +18,6 @@ public class SpiralMatrixBuilder
 {
     public Integer[][] theMatrix;
 
-    public int processMatrix(String direction, int column, int row, int currentIndex)
-    {
-        if (direction.equals("Up"))
-        {
-            for (int i = column; theMatrix[i][row] != null && theMatrix[i][column] == 0; i--)
-            {
-                theMatrix[i][row] = currentIndex;
-                currentIndex = i;
-            }
-        }
-        return currentIndex;
-    }
-
-
     public Integer[][] buildMatrixOfSize(int size)
     {
         theMatrix = new Integer[size][size];
@@ -42,12 +28,11 @@ public class SpiralMatrixBuilder
 
         String direction = right;
 
-
         for (int i = 1; i <= highestNumber; i++)
         {
-            while (currentColumn < size && currentRow < size && currentColumn >= 0 && currentRow >= 0 && theMatrix[currentColumn][currentRow] == null)
+            while (currentColumn < size && currentRow < size && currentColumn >= 0 && currentRow >= 0 && theMatrix[currentRow][currentColumn] == null)
             {
-                theMatrix[currentColumn][currentRow] = i;
+                theMatrix[currentRow][currentColumn] = i;
                 switch (direction)
                 {
                     case "Right":
@@ -103,27 +88,7 @@ public class SpiralMatrixBuilder
                 currentColumn++;
             }
 
-
         }
-
-
-
-
-        /*
-        for (int i = 1; i <= size; i++)
-        {
-            //Up Direction check
-
-                if (currentColumn-1 != -1 && this.theMatrix[currentColumn - 1][currentRow] == 0)
-                {
-                    int currentIndex = processMatrix("Up", currentColumn, currentRow, i);
-                    currentRow = currentIndex;
-                }
-
-
-        }*/
-
-        int[][][][] rawr;
 
         return theMatrix;
     }
@@ -147,11 +112,11 @@ class MeowersTesters
                 {13, 12, 11, 10, 9}
         };
 
-        int answer = someMultiArray[0][0];
+        int answer = someMultiArray[1][0];
 
         SpiralMatrixBuilder someSpiral = new SpiralMatrixBuilder();
 
-        someSpiral.buildMatrixOfSize(5);
+        Integer[][] matrixBuilt = someSpiral.buildMatrixOfSize(2);
 
 
     }
