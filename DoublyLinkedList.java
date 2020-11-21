@@ -20,6 +20,10 @@ public class DoublyLinkedList<E>
     }
 
 
+    /**
+     * Adds data at the top of the Linked List
+     * @param someDataThing E
+     */
     public void push(E someDataThing)
     {
         if (head == null)
@@ -45,6 +49,10 @@ public class DoublyLinkedList<E>
         }
     }
 
+    /**
+     * Adds data at tail end of Linked List
+     * @param someData E
+     */
     public void unshift(E someData)
     {
         if (head == null)
@@ -62,6 +70,10 @@ public class DoublyLinkedList<E>
         }
     }
 
+    /**
+     * Adds Removes data at tail end of Linked List
+     * @return E
+     */
     public E shift()
     {
         E answer = null;
@@ -81,6 +93,10 @@ public class DoublyLinkedList<E>
         return answer;
     }
 
+    /**
+     * Removed data at top/beginning of Linked List
+     * @return E
+     */
     public E pop()
     {
         E answer = null;
