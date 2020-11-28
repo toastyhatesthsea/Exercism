@@ -25,9 +25,16 @@ public class NucleotideCounter
         this.dnaCount.put('C', 0);
         this.dnaCount.put('G', 0);
         this.dnaCount.put('T', 0);
+        processDna();
     }
 
     public HashMap<Character, Integer> nucleotideCounts()
+    {
+
+        return this.dnaCount;
+    }
+
+    public void processDna()
     {
         for (int i = 0; i < this.dnaString.length(); i++)
         {
@@ -35,12 +42,12 @@ public class NucleotideCounter
 
             int dnaAmountValue = this.dnaCount.getOrDefault(aChar, -1);
 
-            if (dnaAmountValue != -1)
+            if (dnaAmountValue == -1)
             {
-                this.dnaCount.replace(aChar, dnaAmountValue + 1);
+                throw new IllegalArgumentException();
             }
 
+            this.dnaCount.replace(aChar, dnaAmountValue + 1);
         }
-        return this.dnaCount;
     }
 }
