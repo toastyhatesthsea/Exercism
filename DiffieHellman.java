@@ -25,6 +25,15 @@ public class DiffieHellman
     }
 
 
+    public BigInteger secret(BigInteger aPrime, BigInteger aPublic, BigInteger aSecret)
+    {
+        return null;
+    }
+
+    public BigInteger publicKey(BigInteger primeA, BigInteger primeB, BigInteger privateKey)
+    {
+        return null;
+    }
 
 }
 
@@ -33,6 +42,10 @@ class TesterMeows
 {
     public static void main(String[] asdasdasdssadasd)
     {
-        
+        DiffieHellman diffie = new DiffieHellman();
+
+        BigInteger aBigInt = BigInteger.valueOf(45);
+
+        diffie.privateKey(aBigInt);
     }
 }
