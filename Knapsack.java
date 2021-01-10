@@ -28,9 +28,7 @@ public class Knapsack
 
     public static int maxValue(int weight, Item anItem, ArrayList<Item> someItems)
     {
-        int anItemValue = anItem.value;
-        int anItemWeight = anItem.getWeight();
-        int totalWeight =+ weight;
+        int totalWeight =+ anItem.getWeight();
         int answer = anItem.getValue();
 
         if (anItem.getWeight() > weight)
@@ -48,6 +46,7 @@ public class Knapsack
                 {
                     if (totalWeight + a.getWeight() <= weight)
                     {
+                        totalWeight += a.getWeight();
                         answer += a.getValue();
                     }
                 }
