@@ -31,6 +31,7 @@ public class PascalsTriangleGenerator
         return answer;
     }
 
+    //TODO Must fix creating correct size of Initial triangle row
     public int[] createArrayRow(int[] previousAboveArrayInTriangle)
     {
         int[] answer = new int[previousAboveArrayInTriangle.length + 1];
