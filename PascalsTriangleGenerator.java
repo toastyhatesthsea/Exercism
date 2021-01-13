@@ -18,12 +18,15 @@ public class PascalsTriangleGenerator
 
         for (int i = 0; i < sizeOfTriangle; i++)
         {
-            if (sizeOfTriangle == 1)
+            if (i == 0)
             {
                 answer[0][0] = 1;
+            } else
+            {
+                int[] aRow = createArrayRow(answer[i]);
+                answer[i] = aRow;
             }
         }
-
 
         return answer;
     }
@@ -39,8 +42,7 @@ public class PascalsTriangleGenerator
             } else if (i == answer.length - 1)
             {
                 answer[i] = 1;
-            }
-            else
+            } else
             {
                 int firstSlot = previousAboveArrayInTriangle[i - 1] + previousAboveArrayInTriangle[i];
                 answer[i] = firstSlot;
