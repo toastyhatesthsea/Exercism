@@ -20,10 +20,13 @@ public class PascalsTriangleGenerator
         {
             if (i == 0)
             {
-                answer[0][0] = 1;
+                int[] newArray = new int[1];
+                newArray[0] = 1;
+                //answer[0][0] = 1;
+                answer[0] = newArray;
             } else
             {
-                int[] aRow = createArrayRow(answer[i]);
+                int[] aRow = createArrayRow(answer[i-1]);
                 answer[i] = aRow;
             }
         }
