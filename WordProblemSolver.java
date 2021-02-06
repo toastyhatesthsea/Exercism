@@ -24,6 +24,7 @@ public class WordProblemSolver
 
     private String[] whatToCompute;
     private HashMap<String, Integer> parsedDataFromPhrase;
+    private String[]operatorsInOrder;
 
     public int solve(String somePhraseToCompute)
     {
@@ -89,6 +90,29 @@ public class WordProblemSolver
             {
                 parsedDataFromPhrase.put(aWord, someValue + 1);
             }
+        }
+    }
+
+    /**
+     * Gathers operators from a string of words
+     * > What is 3 plus 2 multiplied by 3?
+     *
+     * @param somePhrase String
+     */
+    public static String[] gatherOperatorWords(String[] somePhrase)
+    {
+        String[] answer = new String[somePhrase.length];
+        int counter = 0;
+        for (String meow : somePhrase)
+        {
+            if (meow.equals("plus"))
+            {
+                answer[counter] = meow;
+            } else if (meow.equals("minus"))
+            {
+                answer[counter] = meow;
+            }
+            else if(meow.equals("multiplied"))
         }
     }
 
