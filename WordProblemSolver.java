@@ -33,11 +33,12 @@ public class WordProblemSolver
     {
         int answer = -1;
         boolean mustHaveNumber = true;
-        boolean mustHaveOperator = true;
+        boolean mustHaveOperator = false;
+        boolean justDividedOrMultiplied = false;
         int numbersIndex = 0;
 
         whatToCompute = somePhraseToCompute.split(" ");
-        parsePhraseIntoHashMap(somePhraseToCompute);
+        //parsePhraseIntoHashMap(somePhraseToCompute);
 
         for (Map.Entry<String, Integer> anEntry : parsedDataFromPhrase.entrySet())
         {
@@ -47,29 +48,44 @@ public class WordProblemSolver
         for (int i = 0; i < whatToCompute.length; i++)
         {
             String data = whatToCompute[i];
-            if (!data.equals("What") && i == 0)
+            if (i == 0)
             {
-                throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
-            } else if (!data.equals("is") && i == 1)
-            {
-                throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
-            } else if (checkForOperatorPhrase(data) && i == 3)
-            {
-                //TODO Must evaluate properly based on which operator
+                if (!data.equals("What"))
+                {
+                    throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
+                }
             }
-            if (mustHaveNumber)
+            else if (i == 1)
+            {
+                if (!data.equals("is"))
+                {
+                    throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
+                }
+            }
+            else if (justDividedOrMultiplied)
+            {
+                if (!data.equals("by"))
+                {
+                    throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
+                }
+                justDividedOrMultiplied = false;
+            }
+            else if (mustHaveNumber)
             {
                 try
                 {
                     //TODO Must consider numbers with ? attached to the end, i.e. 35?
+                    if (Character.toString(data.charAt(data.length() - 1)).equals("?"))
+                    {
+                        data = data.substring(0, data.length() - 1);
+                    }
                     int aNumberParsed = Integer.parseInt(data);
-                    if (numberQueue.size() > 0)
+                    if (numberQueue.size() > 0) //If there is already a number that has been parsed beforehand
                     {
                         int firstNumber = (int) numberQueue.remove();
                         int calculatedAnswer = calculateStatement(firstNumber, aNumberParsed, operator);
                         numberQueue.add(calculatedAnswer);
-                    }
-                    else
+                    } else //If no number has been parsed beforehand, just move on and add to queue
                     {
                         numberQueue.add(aNumberParsed);
                     }
@@ -80,6 +96,7 @@ public class WordProblemSolver
                     throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
                 }
                 mustHaveNumber = false;
+                mustHaveOperator = true;
             } else if (mustHaveOperator)
             {
                 try
@@ -87,7 +104,10 @@ public class WordProblemSolver
                     boolean hasOperator = checkForOperatorPhrase(data);
                     if (hasOperator)
                     {
-                        //TODO Must process operators correctly 
+                        if (data.equals("divided") || data.equals("multiplied"))
+                        {
+                            justDividedOrMultiplied = true;
+                        }
                     } else
                     {
                         throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
@@ -96,12 +116,13 @@ public class WordProblemSolver
                 {
                     throw new IllegalArgumentException("I'm sorry, I don't understand the question!");
                 }
+                mustHaveOperator = false;
+                mustHaveNumber = true;
             }
 
         }
 
-
-        return answer;
+        return (int)numberQueue.remove();
     }
 
     public boolean checkForOperatorPhrase(String someWord)
@@ -120,14 +141,16 @@ public class WordProblemSolver
         {
             answer = true;
         }
+        this.operator = someWord;
         return answer;
     }
 
     /**
      * Takes two numbers and processes them according to the String operator parameter
-     * @param firstNumber int
+     *
+     * @param firstNumber  int
      * @param secondNumber int
-     * @param operator String
+     * @param operator     String
      * @return int
      */
     public int calculateStatement(int firstNumber, int secondNumber, String operator)
@@ -212,7 +235,7 @@ public class WordProblemSolver
 
                 answer[counter] = meow;
                 counter++;
-            }else if()
+            }
 
             else
             {
