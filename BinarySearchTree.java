@@ -7,12 +7,16 @@ class BinarySearchTree<T extends Comparable<T>>
 
     void insert(T value)
     {
-
-        /*
         if (this.root == null)
         {
             this.root = new Node<>(value, null, null);
-        } else
+        }
+        else
+        {
+            insertHelper(root, value);
+        }
+        /*
+        else
         {
             T someValue = this.root.getData();
             if (value.compareTo(someValue) < 0) //left Node
@@ -89,6 +93,7 @@ class BinarySearchTree<T extends Comparable<T>>
         throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
     }
 
+    //TODO Simply return root and left to right, going down the tree
     List<T> getAsLevelOrderList()
     {
         throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
