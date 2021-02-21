@@ -52,7 +52,7 @@ class BinarySearchTree<T extends Comparable<T>>
 
         if (aNode.isLeaf())
         {
-            if (someValue.compareTo(leafValue) < 0)
+            if (someValue.compareTo(leafValue) <= 0)
             {
                 aNode.left = new Node<>(someValue, null, null);
             }
@@ -63,7 +63,7 @@ class BinarySearchTree<T extends Comparable<T>>
         }
         else
         {
-            if (someValue.compareTo(leafValue) < 0)
+            if (someValue.compareTo(leafValue) <= 0)
             {
                 if (aNode.left == null)
                 {
